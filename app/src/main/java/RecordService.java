@@ -1,5 +1,3 @@
-package com.rom1v.sndcpy;
-
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -22,6 +20,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
+import com.rom1v.sndcpy.R;
 
 import java.io.IOException;
 
@@ -43,6 +42,7 @@ public class RecordService extends Service {
     private Thread recorderThread;
 
     public static void start(Context context, Intent data) {
+        System.out.println("Start application");
         Intent intent = new Intent(context, RecordService.class);
         intent.setAction(ACTION_RECORD);
         intent.putExtra(EXTRA_MEDIA_PROJECTION_DATA, data);
@@ -65,6 +65,7 @@ public class RecordService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         String action = intent.getAction();
         if (ACTION_STOP.equals(action)) {
+            System.out.println("Stop");
             stopSelf();
             return START_NOT_STICKY;
         }
@@ -102,6 +103,7 @@ public class RecordService extends Service {
 
 
     private Intent createStopIntent() {
+        System.out.println("Stop Intent");
         Intent intent = new Intent(this, RecordService.class);
         intent.setAction(ACTION_STOP);
         return intent;
@@ -182,6 +184,7 @@ public class RecordService extends Service {
 
     @Override
     public void onDestroy() {
+        System.out.println("Destroy");
         super.onDestroy();
         stopForeground(true);
         if (recorderThread != null) {
